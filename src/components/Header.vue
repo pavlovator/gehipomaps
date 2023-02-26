@@ -1,29 +1,25 @@
 <template>
     <header>
         <h1>{{ title }}</h1>
-        <Button text="Add task" color="green" />
     </header>
 </template>
 
 <script>
-import Button from './Button.vue'
 
 export default {
     name: 'App-Header',
     props: {
         title: String,
     },
-    components: {
-        Button,
-    }
 }
 </script>
 
 <style scoped>
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    background-color: gray;
+    color: white;
+    padding: 10px;
+    border-top: 1px solid gray;
+    border-right: 1px solid gray;
 }
 </style>

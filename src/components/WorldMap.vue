@@ -1,8 +1,13 @@
 <template>
-<div id="tooltip"></div>
-<svg id="map"></svg>
-<div id="flag-container">
-    <svg id="flag"></svg>
+<div class="main-content">
+    <div id="tooltip"></div>
+
+    <div class="map-container">
+        <svg id="map"></svg>
+    </div>
+    <div id="flag-container">
+        <svg id="flag"></svg>
+    </div>
 </div>
 </template>
 
@@ -21,7 +26,7 @@ export default {
         return {
             margin: {top: 10, right: 10, bottom: 10, left: 10},
             width: 1000,
-            height: 520,
+            height: 500,
             projection: d3.geoNaturalEarth1()
 
         };
@@ -62,7 +67,7 @@ export default {
             console.log(this.countries);
             const svg = d3.select("#map")
                 .attr("fill", "blue")
-                .attr("viewBox", this.margin.left + " " + this.margin.top + " " + this.width + " " + this.height)
+                .attr("viewBox", this.margin.left + " " +  this.margin.top +" " + this.width + " " + this.height)
                 .append("g")
                 .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
             
@@ -125,3 +130,24 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+
+.main-content {
+    flex: 1;
+    background-color: white;
+    padding: 10px;
+}
+
+.map-container {
+    width: 75%;
+    margin: 0 auto;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.map-container svg {
+  vertical-align: middle;
+}
+</style>
