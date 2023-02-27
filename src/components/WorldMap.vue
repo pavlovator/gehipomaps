@@ -139,7 +139,7 @@ export default {
 }
 
 .map-container {
-    width: 75%;
+    width: 80%;
     margin: 0 auto;
     border: 2px solid #ddd;
     border-radius: 10px;

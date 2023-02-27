@@ -5,49 +5,72 @@
 		</div>
 
 		<div class="menu-toggle-wrap">
-			<button class="menu-toggle" @click="ToggleMenu">
+			<button class="menu-toggle" @click="toggleMenu">
 				<span class="material-icons">keyboard_double_arrow_right</span>
 			</button>
 		</div>
 
 		<h3>Menu</h3>
-		<div class="menu">
-			<div class="button" @click="ToggleMenu">
-				<span class="material-icons">gavel</span>
-				<span class="text">Political</span>
+        <div class="menu" v-for="option in sidebar_options" v-bind:key="option.id">
+            <div class="button" @click="toggleSubmenu(option)">
+				<span class="material-icons">{{option.icon_name}}</span>
+				<span class="text">{{ option.text }}</span>
             </div>
-			<div class="button">
-				<span class="material-icons">church</span>
-				<span class="text">Religion</span>
-			</div>
-			<div class="button">
-				<span class="material-icons">terrain</span>
-				<span class="text">Terrain</span>
-			</div>
-			<div class="button">
-				<span class="material-icons">translate</span>
-				<span class="text">Language</span>
-			</div>
-		</div>
+            <SideOptions v-if="option.show" :suboptions_id="option.id" />
+        </div>
+
 	</aside>
 </template>
 
 <script>
 import { ref } from 'vue'
+import SideOptions from './SideOptions.vue'
 
 export default {
     name: 'App-Sidebar',
+    components:{
+        SideOptions
+    },
     data(){
         return {
+            sidebar_options: [
+                {
+                    id:0,
+                    icon_name:'gavel',
+                    text:'Political',
+                    show:false
+                },
+                {
+                    id:1,
+                    icon_name:'church',
+                    text:'Religion',
+                    show:false
+                },
+                {
+                    id:2,
+                    icon_name:'terrain',
+                    text:'Terrain',
+                    show:false
+                },
+                {
+                    id:3,
+                    icon_name:'translate',
+                    text:'Language',
+                    show:false
+                }
+            ],
             is_expanded: ref(localStorage.getItem("is_expanded") === "true")
         }
     },
     methods:{
-        ToggleMenu(){
+        toggleMenu(){
             this.is_expanded = !this.is_expanded
             localStorage.setItem("is_expanded", this.is_expanded)
         },
-        
+        toggleSubmenu(menuItem) {
+            console.log(menuItem.show)
+            menuItem.show = !menuItem.show
+        }
     }
 }
 </script>
@@ -63,7 +86,6 @@ aside {
 	min-height: 100vh;
 	padding: 1rem;
 	transition: 0.2s ease-in-out;
-    z-index: 0; /* Set a lower z-index than the header */
 	.flex {
 		flex: 1 1 0%;
 	}
@@ -131,14 +153,6 @@ aside {
 			}
 		}
 	}
-	.footer {
-		opacity: 0;
-		transition: opacity 0.3s ease-in-out;
-		p {
-			font-size: 0.875rem;
-			color: var(--grey);
-		}
-	}
 	&.is-expanded {
 		width: var(--sidebar-width);
 		.menu-toggle-wrap {
@@ -155,9 +169,6 @@ aside {
 			.material-icons {
 				margin-right: 1rem;
 			}
-		}
-		.footer {
-			opacity: 0;
 		}
 	}
 	@media (max-width: 1024px) {
