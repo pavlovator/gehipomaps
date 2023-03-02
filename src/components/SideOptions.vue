@@ -1,8 +1,8 @@
 <template>
 <div class="options-container" v-for="item in sidebar_suboptions[suboptions_id].items" v-bind:key="item.id">
     <div class="option">
-      <input type="checkbox" :id="item.checkbox_id" :name="item.checkbox_name" @change="store.checkOption($event.target.id)">
-      <label for="option1">{{item.text}}</label>
+      <input type="checkbox" :checked="store.checked_options[item.checkbox_id].checked" :id="item.checkbox_id" :name="item.checkbox_name" @change="store.checkOption($event.target.id)">
+      <label :for="item.checkbox_id">{{item.text}}</label>
     </div>
 </div>
 </template>
@@ -24,14 +24,14 @@ export default {
                     text:'Political',
                     items:[
                         {
-                            text:"NATO memebers",
-                            checkbox_id:'option1',
+                            text:"NATO",
+                            checkbox_id:'opt1_nato',
                             checkbox_name:'nato_members'
                         },
                         {
-                            text:"ASIAN whatever",
-                            checkbox_id:'option2',
-                            checkbox_name:'asian_whatever'
+                            text:"BRICS",
+                            checkbox_id:'opt2_brics',
+                            checkbox_name:'brics_members'
                         }
                         
                     ]
@@ -42,12 +42,12 @@ export default {
                     items:[
                         {
                             text:"Islam",
-                            checkbox_id:'option3',
+                            checkbox_id:'opt3_islam',
                             checkbox_name:'islam'
                         },
                         {
                             text:"Christianity",
-                            checkbox_id:'option4',
+                            checkbox_id:'opt4_christianity',
                             checkbox_name:'christianity'
                         }
                         
@@ -55,11 +55,15 @@ export default {
                 },
                 {
                     id:2,
-                    text:'Terrain',
+                    text:'Language',
                 },
                 {
                     id:3,
-                    text:'Language',
+                    text:'Terrain',
+                },
+                {
+                    id:4,
+                    text:'Philosophy',
                 }
             ]
         }

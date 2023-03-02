@@ -8,11 +8,14 @@
     <div id="flag-container">
         <svg id="flag"></svg>
     </div>
+    <div class="container">
+  </div>
 </div>
 </template>
 
 <script>
 import * as d3 from "d3";
+import { useMapOptionsStore } from '@/stores/map_options'
 
 
 export default {
@@ -27,14 +30,17 @@ export default {
             margin: {top: 10, right: 10, bottom: 10, left: 10},
             width: 1000,
             height: 500,
-            projection: d3.geoNaturalEarth1()
-
+            projection: d3.geoNaturalEarth1(),
+            store: this.createStore()
         };
     },
     methods:{
+        createStore() {
+            return useMapOptionsStore() 
+        },
         mouseOver(d, i){
-            d3.select(d.toElement)
-                .style("fill", "green");
+            d3.select(d.target)
+                .attr("fill", "grey")
 
             d3.select("#tooltip")
                 .style("opacity", 0.8)
@@ -50,9 +56,9 @@ export default {
                 .attr("height", 100);
         },
 
-        mouseLeave() {
-            d3.selectAll(".topo")
-                .style("fill", "yellow");
+        mouseLeave(d) {
+            d3.select(d.target)
+                .attr("fill", "yellow");
 
             d3.select("#tooltip")
                 .style("opacity", 0);
@@ -63,10 +69,8 @@ export default {
         },
 
         renderMap(){
-            console.log(this.flags);
-            console.log(this.countries);
+            console.log("rendering map");
             const svg = d3.select("#map")
-                .attr("fill", "blue")
                 .attr("viewBox", this.margin.left + " " +  this.margin.top +" " + this.width + " " + this.height)
                 .append("g")
                 .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
@@ -90,12 +94,14 @@ export default {
                     g.attr("transform", (transform));
                     });
 
+            // draw Map
             svg.append("g")
                 .selectAll("path")
                 .data(this.countries.features)
                 .enter()
                 .append("path")
                 .attr("class", "topo")
+                .attr("id", function(d) { return d.properties.ISO_A3; })
                 .attr("d", d3.geoPath()
                     .projection(this.projection))
                 .attr("fill", "yellow")
@@ -125,9 +131,27 @@ export default {
     mounted() {
         this.renderMap();
     },
-    updated() {
-        this.renderMap();
-    }
+    watch: {
+        'store.checked_options.opt1_nato.checked': function(value) {
+            d3.csv(this.store.checked_options.opt1_nato.file, function(data) {
+                d3.select('#'+data.ISO_A3)
+                    .attr('fill', value ? 'blue' : 'yellow');
+            });
+        },
+        'store.checked_options.opt2_brics.checked': function(value) {
+            d3.csv(this.store.checked_options.opt2_brics.file, function(data) {
+                d3.select('#'+data.ISO_A3)
+                    .attr('fill', value ? 'orange' : 'yellow');
+            });
+        },
+        'store.checked_options.opt3_islam.checked': function(value) {
+            console.log(value);
+        },
+        'store.checked_options.opt4_christianity.checked': function(value) {
+            console.log(value);
+        }
+    },
+    
 }
 </script>
 <style lang="scss" scoped>

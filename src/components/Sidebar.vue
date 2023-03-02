@@ -48,14 +48,20 @@ export default {
                 },
                 {
                     id:2,
+                    icon_name:'translate',
+                    text:'Language',
+                    show:false
+                },
+                {
+                    id:3,
                     icon_name:'terrain',
                     text:'Terrain',
                     show:false
                 },
                 {
-                    id:3,
-                    icon_name:'translate',
-                    text:'Language',
+                    id:4,
+                    icon_name:'psychology_alt',
+                    text:'Philosophy',
                     show:false
                 }
             ],
@@ -68,7 +74,6 @@ export default {
             localStorage.setItem("is_expanded", this.is_expanded)
         },
         toggleSubmenu(menuItem) {
-            console.log(menuItem.show)
             menuItem.show = !menuItem.show
         }
     }
