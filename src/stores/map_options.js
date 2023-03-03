@@ -3,21 +3,26 @@ import { defineStore } from 'pinia'
 export const useMapOptionsStore = defineStore('map-options', {
     state: () => ({
         checked_options: {
-            opt1_nato: {
+            pol_opt1_nato: {
                 name:"nato_members",
                 checked:false,
                 file:"./data/nato.csv"
             },
-            opt2_brics: {
+            pol_opt2_brics: {
                 name:"brics_members",
                 checked:false,
                 file:"./data/brics.csv"
             },
-            opt3_islam: {
+            pol_opt3_common_wealth: {
+                name:"common_wealth_members",
+                checked:false,
+                file:"./data/common_wealth.csv"
+            },
+            pol_opt1_islam: {
                 name:"islam",
                 checked:false
             },
-            opt4_christianity: {
+            pol_opt2_christianity: {
                 name:"christianity",
                 checked:false
             }

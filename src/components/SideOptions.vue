@@ -25,13 +25,18 @@ export default {
                     items:[
                         {
                             text:"NATO",
-                            checkbox_id:'opt1_nato',
+                            checkbox_id:'pol_opt1_nato',
                             checkbox_name:'nato_members'
                         },
                         {
                             text:"BRICS",
-                            checkbox_id:'opt2_brics',
+                            checkbox_id:'pol_opt2_brics',
                             checkbox_name:'brics_members'
+                        },
+                        {
+                            text:"Common Wealth",
+                            checkbox_id:'pol_opt3_common_wealth',
+                            checkbox_name:'common_wealth_members'
                         }
                         
                     ]
