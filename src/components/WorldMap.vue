@@ -16,7 +16,7 @@
 <script>
 import * as d3 from "d3";
 import { useMapOptionsStore } from '@/stores/map_options'
-
+import chroma from "chroma-js"
 
 export default {
     name: "App-WorldMap",
@@ -32,6 +32,12 @@ export default {
             height: 500,
             projection: d3.geoNaturalEarth1(),
             store: this.createStore(),
+            default_color: chroma('yellow'),
+            option_colors: {
+                nato: "blue",
+                brics: "orange",
+                common_wealth: "green"
+            },
             colors_byISO: Object()
         };
     },
@@ -59,7 +65,7 @@ export default {
 
         mouseLeave(d) {
             d3.select(d.target)
-                .attr("fill", d.target.id in this.colors_byISO ? this.colors_byISO[d.target.id] : "yellow");
+                .attr("fill", d.target.id in this.colors_byISO ? this.blendColors(d.target.id) : this.default_color);
 
             d3.select("#tooltip")
                 .style("opacity", 0);
@@ -105,7 +111,7 @@ export default {
                 .attr("id", function(d) { return d.properties.ISO_A3; })
                 .attr("d", d3.geoPath()
                     .projection(this.projection))
-                .attr("fill", "yellow")
+                .attr("fill", this.default_color)
                 .attr("stroke", "black")
                 .attr("stroke-width", "0.1px")
                 .on("mouseover", this.mouseOver)
@@ -126,6 +132,44 @@ export default {
             svg.call(zoom)
                 .call(zoom.transform, d3.zoomIdentity);
                     
+        },
+        addColorsByISO(ISO, option){
+            if (ISO in this.colors_byISO) {
+                this.colors_byISO[ISO][option] = this.option_colors[option];
+            } else {
+                if (this.colors_byISO[ISO] !== undefined){
+                    this.colors_byISO[ISO][option] = this.option_colors[option];
+                } else {
+                    this.colors_byISO[ISO] = {[option]:this.option_colors[option]};
+                }
+            }
+            this.blendColors(ISO);
+        },
+        deleteColorsByISO(ISO, option){
+            delete this.colors_byISO[ISO][option];
+        },
+        blendColors(ISO){
+            const opt_colors = Object.values(this.colors_byISO[ISO]);
+            if (opt_colors.length == 0){
+                return this.default_color;
+            }
+            const blended_color = chroma.average(opt_colors);
+            return blended_color;
+        },
+        applyColoring(is_checked, file, option){
+            const addColors = this.addColorsByISO;
+            const deleteColors = this.deleteColorsByISO;
+            const blendColors = this.blendColors;
+            d3.csv(file, function(data) {
+                if (is_checked){
+                    addColors(data.ISO_A3, option);
+                } else {
+                    deleteColors(data.ISO_A3, option);
+                }
+                const blended_color = blendColors(data.ISO_A3);
+                d3.select('#'+data.ISO_A3)
+                    .attr('fill', blended_color);
+            });
         }
     },
     mounted() {
@@ -133,51 +177,18 @@ export default {
     },
     watch: {
         'store.checked_options.pol_opt1_nato.checked': function(value) {
-            const colors_byISO = this.colors_byISO
-            d3.csv(this.store.checked_options.pol_opt1_nato.file, function(data) {
-                if (value){
-                    colors_byISO[data.ISO_A3] = 'blue';
-                    d3.select('#'+data.ISO_A3)
-                        .attr('fill', 'blue');
-                } else {
-                    delete colors_byISO[data.ISO_A3];
-                    d3.select('#'+data.ISO_A3)
-                        .attr('fill', 'yellow');
-                }
-            });
+            this.applyColoring(value, this.store.checked_options.pol_opt1_nato.file, 'nato');
         },
         'store.checked_options.pol_opt2_brics.checked': function(value) {
-            const colors_byISO = this.colors_byISO
-            d3.csv(this.store.checked_options.pol_opt2_brics.file, function(data) {
-                if (value){
-                    colors_byISO[data.ISO_A3] = 'orange';
-                    d3.select('#'+data.ISO_A3)
-                        .attr('fill', 'orange');
-                } else {
-                    delete colors_byISO[data.ISO_A3];
-                    d3.select('#'+data.ISO_A3)
-                        .attr('fill', 'yellow');
-                }
-            });
+            this.applyColoring(value, this.store.checked_options.pol_opt2_brics.file, 'brics');
         },
         'store.checked_options.pol_opt3_common_wealth.checked': function(value){
-            const colors_byISO = this.colors_byISO
-            d3.csv(this.store.checked_options.pol_opt3_common_wealth.file, function(data) {
-                if (value){
-                    colors_byISO[data.ISO_A3] = 'green';
-                    d3.select('#'+data.ISO_A3)
-                        .attr('fill', 'green');
-                } else {
-                    delete colors_byISO[data.ISO_A3];
-                    d3.select('#'+data.ISO_A3)
-                        .attr('fill', 'yellow');
-                }
-            });
+            this.applyColoring(value, this.store.checked_options.pol_opt3_common_wealth.file, 'common_wealth');
         },        
-        'store.checked_options.pol_opt1_islam.checked': function(value) {
+        'store.checked_options.rel_opt1_islam.checked': function(value) {
             console.log(value);
         },
-        'store.checked_options.pol_opt2_christianity.checked': function(value) {
+        'store.checked_options.rel_opt2_christianity.checked': function(value) {
             console.log(value);
         }
     },

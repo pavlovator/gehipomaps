@@ -47,12 +47,12 @@ export default {
                     items:[
                         {
                             text:"Islam",
-                            checkbox_id:'opt3_islam',
+                            checkbox_id:'rel_opt1_islam',
                             checkbox_name:'islam'
                         },
                         {
                             text:"Christianity",
-                            checkbox_id:'opt4_christianity',
+                            checkbox_id:'rel_opt2_christianity',
                             checkbox_name:'christianity'
                         }
                         
@@ -69,6 +69,10 @@ export default {
                 {
                     id:4,
                     text:'Philosophy',
+                },
+                {
+                    id:5,
+                    text:'History',
                 }
             ]
         }

@@ -18,11 +18,11 @@ export const useMapOptionsStore = defineStore('map-options', {
                 checked:false,
                 file:"./data/common_wealth.csv"
             },
-            pol_opt1_islam: {
+            rel_opt1_islam: {
                 name:"islam",
                 checked:false
             },
-            pol_opt2_christianity: {
+            rel_opt2_christianity: {
                 name:"christianity",
                 checked:false
             }

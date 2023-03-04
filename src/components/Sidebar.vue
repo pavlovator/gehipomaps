@@ -63,6 +63,12 @@ export default {
                     icon_name:'psychology_alt',
                     text:'Philosophy',
                     show:false
+                },
+                {
+                    id:5,
+                    icon_name:'auto_stories',
+                    text:'History',
+                    show:false
                 }
             ],
             is_expanded: ref(localStorage.getItem("is_expanded") === "true")
