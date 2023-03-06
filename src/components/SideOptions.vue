@@ -37,8 +37,41 @@ export default {
                             text:"Common Wealth",
                             checkbox_id:'pol_opt3_common_wealth',
                             checkbox_name:'common_wealth_members'
+                        },
+                        {
+                            text:"EU",
+                            checkbox_id:'pol_opt4_eu',
+                            checkbox_name:"european_union_members"
+                        },
+                        {
+                            text:"ASEAN",
+                            checkbox_id:"pol_opt5_asean",
+                            checkbox_name:"association_of_southeast_asian_nations_members"
+                        },
+                        {
+                            text:"SCO",
+                            checkbox_id:"pol_opt6_sco",
+                            checkbox_name:"shanghai_cooperation_organisation_members"
+
+                        },
+                        {
+                            text:"OAS",
+                            checkbox_id:"pol_opt7_oas",
+                            checkbox_name:"organization_of_american_states_members"
+
+                        },
+                        {
+                            text:"Arab League",
+                            checkbox_id:"pol_opt8_arab_league",
+                            checkbox_name:"arab_league_members"
+
+                        },
+                        {
+                            text:"United Nations",
+                            checkbox_id:"pol_opt9_united_nations",
+                            checkbox_name:"united_nations_members"
+
                         }
-                        
                     ]
                 },
                 {

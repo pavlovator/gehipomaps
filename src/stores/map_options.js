@@ -18,6 +18,36 @@ export const useMapOptionsStore = defineStore('map-options', {
                 checked:false,
                 file:"./data/common_wealth.csv"
             },
+            pol_opt4_eu: {
+                name:"european_union_members",
+                checked:false,
+                file:"./data/eu.csv"
+            },
+            pol_opt5_asean: {
+                name:"association_of_southeast_asian_nations_members",
+                checked:false,
+                file:"./data/asean.csv"
+            },
+            pol_opt6_sco: {
+                name:"shanghai_cooperation_organisation_members",
+                checked:false,
+                file:"./data/sco.csv"
+            },
+            pol_opt7_oas: {
+                name:"organization_of_american_states_members",
+                checked:false,
+                file:"./data/oas.csv"
+            },
+            pol_opt8_arab_league: {
+                name:"arab_league_members",
+                checked:false,
+                file:"./data/arab_league.csv"
+            },
+            pol_opt9_united_nations: {
+                name:"united_nations_members",
+                checked:false,
+                file:"./data/un.csv"
+            },
             rel_opt1_islam: {
                 name:"islam",
                 checked:false

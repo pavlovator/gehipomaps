@@ -36,7 +36,13 @@ export default {
             option_colors: {
                 nato: "blue",
                 brics: "orange",
-                common_wealth: "green"
+                common_wealth: "green",
+                eu: "#003399",
+                asean: "red",
+                sco: "#40E0D0",
+                oas: "#982ecb",
+                arab_league: "green",
+                united_nations: "#009898"
             },
             colors_byISO: Object()
         };
@@ -46,8 +52,15 @@ export default {
             return useMapOptionsStore() 
         },
         mouseOver(d, i){
+            let hover_color;
+            if (d.target.id in this.colors_byISO){
+                hover_color = chroma.average([this.blendColors(d.target.id), "rgba(100,100,100,0.7)"])
+            } else {
+                hover_color = chroma.average([this.default_color, "rgba(100,100,100,0.7)"])
+            }
+
             d3.select(d.target)
-                .attr("fill", "grey")
+                .attr("fill", hover_color)
 
             d3.select("#tooltip")
                 .style("opacity", 0.8)
@@ -184,7 +197,25 @@ export default {
         },
         'store.checked_options.pol_opt3_common_wealth.checked': function(value){
             this.applyColoring(value, this.store.checked_options.pol_opt3_common_wealth.file, 'common_wealth');
-        },        
+        },
+        'store.checked_options.pol_opt4_eu.checked': function(value){
+            this.applyColoring(value, this.store.checked_options.pol_opt4_eu.file, 'eu');
+        },
+        'store.checked_options.pol_opt5_asean.checked': function(value){
+            this.applyColoring(value, this.store.checked_options.pol_opt5_asean.file, 'asean');
+        },
+        'store.checked_options.pol_opt6_sco.checked': function(value){
+            this.applyColoring(value, this.store.checked_options.pol_opt6_sco.file, 'sco');
+        },
+        'store.checked_options.pol_opt7_oas.checked': function(value){
+            this.applyColoring(value, this.store.checked_options.pol_opt7_oas.file, 'oas');
+        },
+        'store.checked_options.pol_opt8_arab_league.checked': function(value){
+            this.applyColoring(value, this.store.checked_options.pol_opt8_arab_league.file, 'arab_league');
+        },
+        'store.checked_options.pol_opt9_united_nations.checked': function(value){
+            this.applyColoring(value, this.store.checked_options.pol_opt9_united_nations.file, 'united_nations');
+        },
         'store.checked_options.rel_opt1_islam.checked': function(value) {
             console.log(value);
         },
@@ -209,7 +240,7 @@ export default {
     border: 2px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    float: left;
 }
 
 .map-container svg {
